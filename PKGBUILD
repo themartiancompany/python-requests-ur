@@ -3,7 +3,7 @@
 
 pkgbase=python-requests
 pkgname=('python-requests' 'python2-requests')
-pkgver=2.12.3
+pkgver=2.12.4
 pkgrel=1
 pkgdesc="Python HTTP for Humans"
 arch=('any')
