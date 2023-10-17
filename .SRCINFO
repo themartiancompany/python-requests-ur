@@ -1,0 +1,26 @@
+pkgbase = python-requests
+	pkgdesc = Python HTTP for Humans
+	pkgver = 2.31.0
+	pkgrel = 1
+	url = https://requests.readthedocs.io/
+	arch = any
+	license = Apache
+	checkdepends = python-pysocks
+	checkdepends = python-pytest-httpbin
+	checkdepends = python-pytest-mock
+	checkdepends = python-trustme
+	makedepends = python-build
+	makedepends = python-installer
+	makedepends = python-setuptools
+	makedepends = python-wheel
+	depends = python-charset-normalizer
+	depends = python-idna
+	depends = python-urllib3
+	optdepends = python-chardet: alternative character encoding library
+	optdepends = python-pysocks: SOCKS proxy support
+	source = https://github.com/psf/requests/archive/v2.31.0/python-requests-2.31.0.tar.gz
+	source = certs.patch
+	sha512sums = 43f536bdb2360fcceb24ef98e995ffa66cdefc2c502629f17a5722445bfa9ad8489201958c846c2aaef37e427f95a4d56e321a91095c69754680abfd83b39150
+	sha512sums = 424a3bb01b23409284f6c9cd2bc22d92df31b85cfd96e1d1b16b5d68adeca670dfed4fff7977d8b10980102b0f780eacc465431021fcd661f3a17168a02a39a3
+
+pkgname = python-requests
