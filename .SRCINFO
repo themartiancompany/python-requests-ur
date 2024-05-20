@@ -1,13 +1,12 @@
 pkgbase = python-requests
 	pkgdesc = Python HTTP for Humans
-	pkgver = 2.31.0
-	pkgrel = 3
+	pkgver = 2.32.0
+	pkgrel = 1
 	url = https://requests.readthedocs.io/
 	arch = any
 	license = Apache-2.0
 	checkdepends = python-pysocks
 	checkdepends = python-pytest-httpbin
-	checkdepends = python-pytest-mock
 	checkdepends = python-trustme
 	makedepends = git
 	makedepends = python-build
@@ -20,10 +19,10 @@ pkgbase = python-requests
 	depends = python-urllib3
 	optdepends = python-chardet: alternative character encoding library
 	optdepends = python-pysocks: SOCKS proxy support
-	source = git+https://github.com/psf/requests.git#tag=v2.31.0?signed
+	source = git+https://github.com/psf/requests.git#tag=v2.32.0
 	source = certs.patch
 	validpgpkeys = 87227E29AD9CFF5CFAC3EA6A44D3FF97B80DC864
-	b2sums = 228f60a657807b14bb8d316ecdf60d2b908dfaaa3f94f795a08cbc4dd60c9524d190c2baf5ad147d604f7d09f125f8bbabd1ff423a62d52a620796933ae22744
-	b2sums = b6a7c9796a8ffedebcdbf0d2f95c40b1bbfa0beb45a3c7d5b493a459c4516533992291c720cf02e291cdbbf554dd0bf25c1312f4be41e39acd586b41911ad5b0
+	b2sums = 039458c588ee825b2f55c39e6f8c6597d77daac1ceea993b18a5a8fff0dcd3af71202f17ba12ceae8857d90865cacc273d55a7faa986c920ea64d5062fb68114
+	b2sums = 30fc6f283f2416318a1011bffab1ee23b0551188704eeacac77b28f5709f42fc33755a14a2eeb3ba2dccb2904a97a87021cff1423fe9149c78f2b9560998308d
 
 pkgname = python-requests
