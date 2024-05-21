@@ -5,7 +5,7 @@
 
 pkgname=python-requests
 _name=${pkgname#python-}
-pkgver=2.32.0
+pkgver=2.32.2
 pkgrel=1
 pkgdesc='Python HTTP for Humans'
 arch=(any)
@@ -37,7 +37,7 @@ source=(
   "git+https://github.com/psf/$_name.git#tag=v$pkgver"
   certs.patch
 )
-b2sums=('039458c588ee825b2f55c39e6f8c6597d77daac1ceea993b18a5a8fff0dcd3af71202f17ba12ceae8857d90865cacc273d55a7faa986c920ea64d5062fb68114'
+b2sums=('3ba8fea3164b772e8ec01b4fb01bd8a64525925993018582c356b48e4f2cf25ced38388f1edc71dcc4df0393799da7f6063e5461c2ffab417510cbe84ebcfe51'
         '30fc6f283f2416318a1011bffab1ee23b0551188704eeacac77b28f5709f42fc33755a14a2eeb3ba2dccb2904a97a87021cff1423fe9149c78f2b9560998308d')
 validpgpkeys=('87227E29AD9CFF5CFAC3EA6A44D3FF97B80DC864') # Nathanael Prewitt <nate.prewitt@gmail.com>
 
