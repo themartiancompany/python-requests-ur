@@ -56,7 +56,7 @@ if [[ "${_os}" == "Android" ]]; then
     certs.termux.patch
   )
   b2sums+=(
-    '7b4d806ac591676315fbc757f373bfa93c406cf8037a50d8f12e71270c3173223b0f95a6d9ad41c8f2ce6f22a0849905059801683df54aa39fd4ec03cea7f22f'
+    '434b0e8079037182b63b41471d5a616ca0bd1424dbfdd129707c008b427f4aae657c09adf9677f8d8e148c837030cfa283445b510b921346f8cbffc2a243d68a'
     # 'SKIP'
   )
 elif [[ "${_os}" == "GNU/Linux" ]]; then

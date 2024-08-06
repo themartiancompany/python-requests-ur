@@ -8,7 +8,7 @@ index be422c3e..9bfe1c80 100644
  """
 -from certifi import where
 +def where():
-+    return "/data/data/com.termux/files/etc/tls/cert.pem"
++    return "/data/data/com.termux/files/usr/etc/tls/cert.pem"
  
  if __name__ == "__main__":
      print(where())
