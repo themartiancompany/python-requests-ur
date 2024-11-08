@@ -11,16 +11,29 @@ _os="$( \
   uname \
     -o)"
 _py="python"
+_pyver="$( \
+  "${_py}" \
+    -V | \
+    awk \
+      '{print $2}')"
+_pymajver="${_pyver%.*}"
+_pyminver="${_pymajver#*.}"
+_pynextver="${_pymajver%.*}.$(( \
+  ${_pyminver} + 1))"
 _pkg=requests
 pkgname="${_py}-${_pkg}"
 pkgver=2.32.3
 pkgrel=1
 pkgdesc='Python HTTP for Humans'
-arch=(any)
-url=https://requests.readthedocs.io/
-license=(Apache-2.0)
+arch=(
+  any
+)
+url="https://${_pkg}.readthedocs.io"
+license=(
+  Apache-2.0
+)
 depends=(
-  ca-certificates
+  "ca-certificates"
   "${_py}-charset-normalizer"
   "${_py}-idna"
   "${_py}-urllib3"
@@ -41,7 +54,9 @@ optdepends=(
   "${_py}-chardet: alternative character encoding library"
   "${_py}-pysocks: SOCKS proxy support"
 )
-_url="https://github.com/psf/${_pkg}"
+_http="https://github.com"
+_ns="psf"
+_url="${_http}/${_ns}/${_pkg}"
 source=(
   "git+${_url}.git#tag=v${pkgver}"
 )
