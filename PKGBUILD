@@ -34,6 +34,8 @@ license=(
 )
 depends=(
   "ca-certificates"
+  "${_py}>=${_pymajver}"
+  "${_py}<${_pynextver}"
   "${_py}-charset-normalizer"
   "${_py}-idna"
   "${_py}-urllib3"
