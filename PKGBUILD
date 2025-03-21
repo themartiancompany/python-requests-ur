@@ -1,7 +1,28 @@
 # SPDX-License-Identifier: AGPL-3.0
+
+#    ----------------------------------------------------------------------
+#    Copyright © 2024, 2025  Pellegrino Prevete
 #
+#    All rights reserved
+#    ----------------------------------------------------------------------
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 # Maintainer: Truocolo <truocolo@aol.com>
-# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
+# Maintainer: Truocolo <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
+# Maintainer: Pellegrino Prevete (dvorak) <pellegrinoprevete@gmail.com>
+# Maintainer: Pellegrino Prevete (dvorak) <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
 # Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
 # Maintainer: Daniel M. Capella <polyzen@archlinux.org>
 # Contributor: Felix Yan <felixonmars@archlinux.org>
@@ -26,11 +47,11 @@ pkgver=2.32.3
 pkgrel=1
 pkgdesc='Python HTTP for Humans'
 arch=(
-  any
+  'any'
 )
 url="https://${_pkg}.readthedocs.io"
 license=(
-  Apache-2.0
+  'Apache-2.0'
 )
 depends=(
   "ca-certificates"
@@ -41,7 +62,7 @@ depends=(
   "${_py}-urllib3"
 )
 makedepends=(
-  git
+  'git'
   "${_py}-build"
   "${_py}-installer"
   "${_py}-setuptools"
@@ -70,7 +91,7 @@ if [[ "${_os}" == "Android" ]]; then
     # "${_py}-certifi"
   )
   source+=(
-    certs.termux.patch
+    'certs.termux.patch'
   )
   b2sums+=(
     '434b0e8079037182b63b41471d5a616ca0bd1424dbfdd129707c008b427f4aae657c09adf9677f8d8e148c837030cfa283445b510b921346f8cbffc2a243d68a'
@@ -78,7 +99,7 @@ if [[ "${_os}" == "Android" ]]; then
   )
 elif [[ "${_os}" == "GNU/Linux" ]]; then
   source+=(
-    certs.patch
+    'certs.patch'
   )
   b2sums+=(
     '30fc6f283f2416318a1011bffab1ee23b0551188704eeacac77b28f5709f42fc33755a14a2eeb3ba2dccb2904a97a87021cff1423fe9149c78f2b9560998308d'
@@ -87,7 +108,7 @@ fi
 
 validpgpkeys=(
   # Nathanael Prewitt <nate.prewitt@gmail.com>
-  87227E29AD9CFF5CFAC3EA6A44D3FF97B80DC864
+  "87227E29AD9CFF5CFAC3EA6A44D3FF97B80DC864"
 )
 
 prepare() {
@@ -110,7 +131,7 @@ prepare() {
   patch \
     -p1 \
     -i \
-    ../"${_patch}"
+    "../${_patch}"
 }
 
 build() {
@@ -131,16 +152,17 @@ check() {
   -v \
   tests \
   --deselect \
-    tests/test_requests.py::TestRequests::test_unicode_header_name
+    "tests/test_requests.py::TestRequests::test_unicode_header_name"
 }
 
 package() {
   cd \
     "${_pkg}"
   "${_py}" \
-    -m installer \
+    -m \
+      installer \
     --destdir="${pkgdir}" \
-    dist/*.whl
+    "dist/"*".whl"
 }
 
 # vim: ts=2 sw=2 et:
