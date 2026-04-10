@@ -1751,7 +1751,7 @@ jobs:
               true
           done
       - name:
-          Builds the Arch package.
+          Builds the GNU package.
         run: |
           _evmfs="false" \
           _git_service="github" \
