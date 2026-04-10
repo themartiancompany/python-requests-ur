@@ -106,7 +106,7 @@ pkgname=(
 )
 _commit="0e322af87745eff34caffe4df68456ebc20d9068"
 pkgver=2.32.3
-pkgrel=2
+pkgrel=3
 pkgdesc='Python HTTP for Humans'
 arch=(
   'any'
@@ -177,8 +177,8 @@ _release_sig_sum="9031637a3fdbd932db3cb1a976086ff890704c08429d26cd64f606459682a7
 _uri="${url}/archive/v${pkgver}.tar.gz"
 _gitlab_sum="728ece7c8aea5504dd921850e40821768169a846dd5a825087ed5ade2636d91b"
 _gitlab_sig_sum="ab3de9fafca46637417c2aeab9e4aac41643c1ee61ec5ed958e4d23d2c91ac15"
-_github_sum="7a55511d466126a07ac33ac26b6fd3c82bef9ff5016d48dbb66d6522e9e0d489"
-_github_sig_sum="61bcb3eedd422bd48d6c19ae91b955ab4ade5b92f2a2dd1c7f34c34087ef59a3"
+_github_sum="706ac73e0ff00779543dc4dceaf11127cc1d927c5bc551d74729107a70d9a311"
+_github_sig_sum="7fd5089db4a530bf3a3e4464e3c34f4471aee46e1988ace32f74d92d1fafcbb5"
 if [[ "${_git_service}" == "gitlab" ]]; then
   if [[ "" == "pkgver" ]]; then
     _sum="${_release_sum}"
