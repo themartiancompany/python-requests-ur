@@ -57,7 +57,7 @@ if [[ ! -v "_git_service" ]]; then
   _git_service="github"
 fi
 if [[ ! -v "_tag_name" ]]; then
-  _tag_name="pkgver"
+  # _tag_name="pkgver"
   _tag_name="commit"
 fi
 if [[ ! -v "_ns" ]]; then
@@ -106,7 +106,7 @@ pkgname=(
 )
 _commit="0e322af87745eff34caffe4df68456ebc20d9068"
 pkgver=2.32.3
-pkgrel=5
+pkgrel=6
 pkgdesc='Python HTTP for Humans'
 arch=(
   'any'
@@ -174,7 +174,7 @@ _bundle_sum="8ce03d6392d3aab1c1d9a1aa20e4795ea341ded775a70e8e2b941bdbce7feaa1"
 _bundle_sig_sum="645f11d7f4a864c22fa840c9e4a6a5c769ff0a804935e01e4c23ec5dd0d0e12b"
 _release_sum='b24a47bc37ffb14fee2d9525b4aa0b86eeb2aab24755fd6e74707c4e4d0b807a'
 _release_sig_sum="9031637a3fdbd932db3cb1a976086ff890704c08429d26cd64f606459682a754"
-_uri="${url}/archive/v${pkgver}.tar.gz"
+# _uri="${url}/archive/v${pkgver}.tar.gz"
 _gitlab_sum="728ece7c8aea5504dd921850e40821768169a846dd5a825087ed5ade2636d91b"
 _gitlab_sig_sum="ab3de9fafca46637417c2aeab9e4aac41643c1ee61ec5ed958e4d23d2c91ac15"
 _github_sum="706ac73e0ff00779543dc4dceaf11127cc1d927c5bc551d74729107a70d9a311"
