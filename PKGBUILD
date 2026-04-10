@@ -106,7 +106,7 @@ pkgname=(
 )
 _commit="0e322af87745eff34caffe4df68456ebc20d9068"
 pkgver=2.32.3
-pkgrel=6
+pkgrel=7
 pkgdesc='Python HTTP for Humans'
 arch=(
   'any'
@@ -165,10 +165,11 @@ _http="https://${_git_service}.com"
 _url="${_http}/${_ns}/${_pkg}"
 if [[ "${_tag_name}" == "pkgver" ]]; then
   _tag="${pkgver}"
+  _tarname="${pkgbase}-${_tag}"
 elif [[ "${_tag_name}" == "commit" ]]; then
   _tag="${_commit}"
+  _tarname="${_pkg}-${_tag}"
 fi
-_tarname="${pkgbase}-${_tag}"
 _tarfile="${_tarname}.${_archive_format}"
 _bundle_sum="8ce03d6392d3aab1c1d9a1aa20e4795ea341ded775a70e8e2b941bdbce7feaa1"
 _bundle_sig_sum="645f11d7f4a864c22fa840c9e4a6a5c769ff0a804935e01e4c23ec5dd0d0e12b"
