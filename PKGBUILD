@@ -106,7 +106,7 @@ pkgname=(
 )
 _commit="0e322af87745eff34caffe4df68456ebc20d9068"
 pkgver=2.32.3
-pkgrel=4
+pkgrel=5
 pkgdesc='Python HTTP for Humans'
 arch=(
   'any'
@@ -276,7 +276,7 @@ prepare() {
   local \
     _patch
   cd \
-    "${_pkg}"
+    "${_tarname}"
     sed \
       -i \
       '/certifi/d' \
@@ -296,7 +296,8 @@ prepare() {
 }
 
 build() {
-  cd "${_pkg}"
+  cd \
+    "${_tarname}"
   "${_py}" \
     -m \
       build \
@@ -306,7 +307,7 @@ build() {
 
 check() {
   cd \
-    "${_pkg}"
+    "${_tarname}"
   # test_unicode_header_name hangs
   PYTHONPATH="$PWD/src" \
   pytest \
@@ -318,7 +319,7 @@ check() {
 
 package() {
   cd \
-    "${_pkg}"
+    "${_tarname}"
   "${_py}" \
     -m \
       "installer" \
