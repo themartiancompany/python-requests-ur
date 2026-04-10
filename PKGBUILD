@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0
 
 #    ----------------------------------------------------------------------
-#    Copyright © 2024, 2025  Pellegrino Prevete
+#    Copyright © 2024, 2025, 2026  Pellegrino Prevete
 #
 #    All rights reserved
 #    ----------------------------------------------------------------------
@@ -19,32 +19,94 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Maintainer: Truocolo <truocolo@aol.com>
-# Maintainer: Truocolo <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
-# Maintainer: Pellegrino Prevete (dvorak) <pellegrinoprevete@gmail.com>
-# Maintainer: Pellegrino Prevete (dvorak) <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
-# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
-# Maintainer: Daniel M. Capella <polyzen@archlinux.org>
-# Contributor: Felix Yan <felixonmars@archlinux.org>
-# Contributor: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
+# Maintainers:
+#   Truocolo
+#     <truocolo@aol.com>
+#     <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
+#   Pellegrino Prevete (dvorak)
+#     <pellegrinoprevete@gmail.com>
+#     <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
+#   Levente Polyak
+#     <anthraxx[at]archlinux[dot]org>
+#   Daniel M. Capella <polyzen@archlinux.org>
+# Contributors:
+#   Felix Yan
+#     <felixonmars@archlinux.org>
+#   Massimiliano Torromeo
+#     <massimiliano.torromeo@gmail.com>
 
-_os="$( \
+_os="$(
   uname \
     -o)"
+_evmfs_available="$(
+  command \
+    -v \
+    "evmfs" || \
+    true)"
+if [[ ! -v "_evmfs" ]]; then
+  if [[ "${_evmfs_available}" != "" ]]; then
+    _evmfs="true"
+  elif [[ "${_evmfs_available}" == "" ]]; then
+    _evmfs="false"
+  fi
+fi
+if [[ ! -v "_git" ]]; then
+  _git="false"
+fi
+if [[ ! -v "_git_service" ]]; then
+  _git_service="github"
+fi
+if [[ ! -v "_tag_name" ]]; then
+  _tag_name="pkgver"
+  _tag_name="commit"
+fi
+if [[ ! -v "_ns" ]]; then
+  if [[ "${_tag_name}" == "pkgver" ]]; then
+    _ns="psf"
+  elif [[ "${_tag_name}" == "commit" ]]; then
+    _ns="themartiancompany"
+  fi
+fi
+if [[ ! -v "_archive_format" ]]; then
+  if [[ "${_git}" == "true" ]]; then
+    if [[ "${_evmfs}" == "true" ]]; then
+      _archive_format="bundle"
+    elif [[ "${_evmfs}" == "false" ]]; then
+      _archive_format="git"
+    fi
+  elif [[ "${_git}" == "false" ]]; then
+    _archive_format="tar.gz"
+    if [[ "${_tag_name}" == "commit" ]]; then
+      if [[ "${_git_service}" == "github" ]]; then
+        _archive_format="zip"
+      fi
+    fi
+  fi
+fi
+if [[ ! -v "_docs" ]]; then
+  _docs="true"
+  if [[ "${_os}" == "Android" ]]; then
+    _docs="false"
+  fi
+fi
 _py="python"
-_pyver="$( \
+_pyver="$(
   "${_py}" \
     -V | \
     awk \
       '{print $2}')"
 _pymajver="${_pyver%.*}"
 _pyminver="${_pymajver#*.}"
-_pynextver="${_pymajver%.*}.$(( \
+_pynextver="${_pymajver%.*}.$((
   ${_pyminver} + 1))"
 _pkg=requests
-pkgname="${_py}-${_pkg}"
+pkgbase="${_py}-${_pkg}"
+pkgname=(
+  "${pkgbase}"
+)
+_commit="0e322af87745eff34caffe4df68456ebc20d9068"
 pkgver=2.32.3
-pkgrel=1
+pkgrel=2
 pkgdesc='Python HTTP for Humans'
 arch=(
   'any'
@@ -61,55 +123,154 @@ depends=(
   "${_py}-idna"
   "${_py}-urllib3"
 )
+if [[ "${_os}" == "Android" ]]; then
+  depends+=(
+    # "${_py}-certifi"
+  )
+fi
 makedepends=(
-  'git'
   "${_py}-build"
   "${_py}-installer"
   "${_py}-setuptools"
   "${_py}-wheel"
 )
+if [[ "${_git}" == "true" ]]; then
+  makedepends=(
+    "git"
+  )
+fi
+if [[ "${_evmfs}" == "true" ]]; then
+  makedepends=(
+    "evmfs"
+  )
+fi
 checkdepends=(
   "${_py}-pysocks"
   "${_py}-pytest-httpbin"
   "${_py}-trustme"
 )
+_python_chardet_optdepends=(
+  "${_py}-chardet:"
+    "alternative character encoding library"
+)
+_python_pysocks_optdepends=(
+  "${_py}-pysocks:"
+    "SOCKS proxy support"
+)
 optdepends=(
-  "${_py}-chardet: alternative character encoding library"
-  "${_py}-pysocks: SOCKS proxy support"
+  "${_python_chardet_optdepends[*]}"
+  "${_python_pysocks_optdepends[*]}"
 )
-_http="https://github.com"
-_ns="psf"
+_http="https://${_git_service}.com"
 _url="${_http}/${_ns}/${_pkg}"
+if [[ "${_tag_name}" == "pkgver" ]]; then
+  _tag="${pkgver}"
+elif [[ "${_tag_name}" == "commit" ]]; then
+  _tag="${_commit}"
+fi
+_tarname="${pkgbase}-${_tag}"
+_tarfile="${_tarname}.${_archive_format}"
+_bundle_sum="8ce03d6392d3aab1c1d9a1aa20e4795ea341ded775a70e8e2b941bdbce7feaa1"
+_bundle_sig_sum="645f11d7f4a864c22fa840c9e4a6a5c769ff0a804935e01e4c23ec5dd0d0e12b"
+_release_sum='b24a47bc37ffb14fee2d9525b4aa0b86eeb2aab24755fd6e74707c4e4d0b807a'
+_release_sig_sum="9031637a3fdbd932db3cb1a976086ff890704c08429d26cd64f606459682a754"
+_uri="${url}/archive/v${pkgver}.tar.gz"
+_gitlab_sum="728ece7c8aea5504dd921850e40821768169a846dd5a825087ed5ade2636d91b"
+_gitlab_sig_sum="ab3de9fafca46637417c2aeab9e4aac41643c1ee61ec5ed958e4d23d2c91ac15"
+_github_sum="7a55511d466126a07ac33ac26b6fd3c82bef9ff5016d48dbb66d6522e9e0d489"
+_github_sig_sum="61bcb3eedd422bd48d6c19ae91b955ab4ade5b92f2a2dd1c7f34c34087ef59a3"
+if [[ "${_git_service}" == "gitlab" ]]; then
+  if [[ "" == "pkgver" ]]; then
+    _sum="${_release_sum}"
+    _sig_sum="${_release_sig_sum}"
+  fi
+  _sum="${_gitlab_sum}"
+  _sig_sum="${_gitlab_sig_sum}"
+  # Dvorak
+  _evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
+elif [[ "${_git_service}" == "github" ]]; then
+  _sum="${_github_sum}"
+  _sig_sum="${_github_sig_sum}"
+  # Truocolo
+  _evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
+  # Dvorak
+  _evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
+fi
+_evmfs_network="100"
+_evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
+_evmfs_dir="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}"
+_evmfs_uri="${_evmfs_dir}/${_sum}"
+_evmfs_src="${_tarfile}::${_evmfs_uri}"
+_sig_uri="${_evmfs_dir}/${_sig_sum}"
+_sig_src="${_tarfile}.sig::${_sig_uri}"
 source=(
-  "git+${_url}.git#tag=v${pkgver}"
+  'certs.patch'
+  'certs.termux.patch'
 )
-b2sums=(
-  '0029d98ac95d27ba56401056d2b380b76e76fc582e596a6c8ba9e4f6197f919876351e88c047098934e31f2e53e88c8f1a31be389d67236233ec971cb510fb8d'
+sha256sums=(
+  "58fbd4a5aa300ce286a336571d495a0846ede2701d8725f6da13a925046b467a"
+  "1d7e825074f8ea9d33a11ce546f778c31360571226f235baff3cd19bbf47b651"
 )
-if [[ "${_os}" == "Android" ]]; then
-  depends+=(
-    # "${_py}-certifi"
-  )
-  source+=(
-    'certs.termux.patch'
-  )
-  b2sums+=(
-    '434b0e8079037182b63b41471d5a616ca0bd1424dbfdd129707c008b427f4aae657c09adf9677f8d8e148c837030cfa283445b510b921346f8cbffc2a243d68a'
-    # 'SKIP'
-  )
-elif [[ "${_os}" == "GNU/Linux" ]]; then
-  source+=(
-    'certs.patch'
-  )
-  b2sums+=(
-    '30fc6f283f2416318a1011bffab1ee23b0551188704eeacac77b28f5709f42fc33755a14a2eeb3ba2dccb2904a97a87021cff1423fe9149c78f2b9560998308d'
+if [[ "${_evmfs}" == "true" ]]; then
+  if [[ "${_git}" == "false" ]]; then
+    source+=(
+      "${_sig_src}"
+    )
+    sha256sums+=(
+      "${_sig_sum}"
+    )
+  elif [[ "${_git}" == "true" ]]; then
+    _evmfs_uri="${_evmfs_dir}/${_bundle_sum}"
+  fi
+  _src="${_tarfile}::${_evmfs_uri}"
+elif [[ "${_evmfs}" == "false" ]]; then
+  if [[ "${_git}" == true ]]; then
+    _src="${_tarname}::git+${_url}#${_tag_name}=${_tag}?signed"
+    _sum="SKIP"
+  elif [[ "${_git}" == false ]]; then
+    _uri=""
+    if [[ "${_git_service}" == "github" ]]; then
+      if [[ "${_tag_name}" == "commit" ]]; then
+        _uri="${_url}/archive/${_commit}.${_archive_format}"
+        _sum="${_github_sum}"
+      elif [[ "${_tag_name}" == "pkgver" ]]; then
+        _uri="${_url}/archive/v${pkgver}.${_archive_format}"
+        _sum="${_release_sum}"
+      fi
+    elif [[ "${_git_service}" == "gitlab" ]]; then
+      if [[ "${_tag_name}" == "commit" ]]; then
+        _uri="${_url}/-/archive/${_tag}/${_tag}.${_archive_format}"
+      fi
+    fi
+    _src="${_tarfile}::${_uri}"
+  fi
+fi
+source+=(
+  "${_src}"
+)
+sha256sums+=(
+  "${_sum}"
+)
+if [[ "${_evmfs}" == "false" ]]; then
+  if [[ "${_git}" == "true" ]]; then
+    validpgpkeys=(
+      # Nathanael Prewitt <nate.prewitt@gmail.com>
+      "87227E29AD9CFF5CFAC3EA6A44D3FF97B80DC864"
+    )
+  elif [[ "${_git}" == "false" ]]; then
+    true
+  fi
+elif [[ "${_evmfs}" == "true" ]]; then
+  validpgpkeys=(
+    # Truocolo
+    #   <truocolo@aol.com>
+    '97E989E6CF1D2C7F7A41FF9F95684DBE23D6A3E9'
+    'DD6732B02E6C88E9E27E2E0D5FC6652B9D9A6C01'
+    # Pellegrino Prevete (dvorak)
+    #   <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
+    '12D8E3D7888F741E89F86EE0FEC8567A644F1D16'
   )
 fi
-
-validpgpkeys=(
-  # Nathanael Prewitt <nate.prewitt@gmail.com>
-  "87227E29AD9CFF5CFAC3EA6A44D3FF97B80DC864"
-)
 
 prepare() {
   local \
@@ -160,7 +321,7 @@ package() {
     "${_pkg}"
   "${_py}" \
     -m \
-      installer \
+      "installer" \
     --destdir="${pkgdir}" \
     "dist/"*".whl"
 }
