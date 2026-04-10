@@ -106,7 +106,7 @@ pkgname=(
 )
 _commit="0e322af87745eff34caffe4df68456ebc20d9068"
 pkgver=2.32.3
-pkgrel=3
+pkgrel=4
 pkgdesc='Python HTTP for Humans'
 arch=(
   'any'

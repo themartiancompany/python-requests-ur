@@ -327,6 +327,12 @@ jobs:
       - name:
           Downloads latest Fur.
         run: |
+          mkdir \
+            -p \
+            "${HOME}"
+          rm \
+            -rf \
+            "${HOME}/fur-src"
           /entrypoint.sh \
             git \
               clone \
@@ -334,8 +340,7 @@ jobs:
                 --single-branch \
                 --depth=1 \
                 "https://github.com/themartiancompany/fur" \
-                "${HOME}/fur-src" || \
-            true
+                "${HOME}/fur-src"
       - name:
           Installs Python Pygments.
         run: |
